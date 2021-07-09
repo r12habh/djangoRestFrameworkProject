@@ -5,6 +5,8 @@ from .serializers import ArticleSerializer
 from rest_framework import status, generics, mixins
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.authentication import SessionAuthentication, BaseAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
@@ -13,6 +15,9 @@ class GenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.Crea
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
     lookup_field = 'id'
+    # authentication_classes = [SessionAuthentication, BaseAuthentication]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id=None):
         if id:
